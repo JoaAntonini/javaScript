@@ -1,59 +1,152 @@
 
+// Dejo en la consola la lista de lineas y condiciones para luego impactarlas en el HTML y que el cliente pueda saber 
+// y elegir cual le interesa y si califica, para luego ingresar en el calculador y saber cual seria su cuota
 
-//Armo la lista de lineas de credito disponibles
+const listaCondiciones=[
+    {
+        nombre: "Adquisición Vivienda Nueva",
+        montoMaximo: 10000000,
+        ingresoMinimo: 40000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 120,
+        plazoMaximaMeses: 240
+    },
+    {
+        nombre: "Adquisición Vivienda Usada",
+        montoMaximo: 7000000,
+        ingresoMinimo: 30000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 120,
+        plazoMaximaMeses: 240
+    },
+    {
+        nombre: "Construcción",
+        montoMaximo: 5000000,
+        ingresoMinimo: 20000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 120,
+        plazoMaximaMeses: 240
+    },
+    {
+        nombre: "Construcción con Terreno",
+        montoMaximo: 7500000,
+        ingresoMinimo: 35000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 120,
+        plazoMaximaMeses: 240
+    },
+        {
+        nombre: "Refacción",
+        montoMaximo: 100000,
+        ingresoMinimo: 20000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 48,
+        plazoMaximaMeses: 96
+    },
+    {
+        nombre: "Ampliación",
+        montoMaximo: 3000000,
+        ingresoMinimo: 50000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 48,
+        plazoMaximaMeses: 120
+    },
+    {
+        nombre: "Materiales",
+        montoMaximo: 500000,
+        ingresoMinimo: 20000,
+        edadMinima: 18,
+        edadMaxima: 70,
+        plazoMinimoMeses: 24,
+        plazoMaximaMeses: 60
+    },
+];
 
-const listaLineas = [ "Adquisición Vivienda", "Construcción", "Construcción con Terreno", "Refacción", "Ampliación"];
-console.log(listaLineas);
 
-//Agrego una nueva linea al final (push) porque en orden de prioridad (monto a prestar) es la menos importante
+//pongo en el HTML las lineas que tengo disponibles
 
-listaLineas.push("Materiales");
-console.log(listaLineas);
+//Accedo al DOM a traves del ID
+let lineas = document.createElement("div");
+lineas.className="card textCenter alineaCards";
 
-//elimino la linea adquisición porque voy a generar 2 lineas una para vivienda usada y una para nueva
 
-listaLineas.shift();
+    //Para cada linea del array voy a tener una card
+    for (const linea of listaCondiciones){
+        let card = document.createElement("div");
+        card.innerHTML = `
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="alineaCards  margenCards">
+                        <div class="col-lg-12 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title">${linea.nombre}</p>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        lineas.appendChild(card);
+    }
 
-listaLineas.unshift("Adquisición Vivienda Nueva","Adquisición Vivienda Usada");
 
-//verifico como queda mi lista final
+let insertaLineas=document.getElementById("lineas");
+insertaLineas.appendChild(lineas);
 
-console.log(listaLineas);
+//le inserto formato al titulo de condiciones y le cambio el texto
+    let titulo=document.getElementById("tituloCondiciones");
+    titulo.innerText="Condiciones de las lineas";
+    tituloCondiciones.className = "textCenter tamañoTitulos margenCards";
 
-for (let i = 0; i < listaLineas.length; i++) {
-    console.log("Linea " + (i+1) + " : " + listaLineas[i]);
-}
 
-//creo 2 lista para mostrar prestamos Hipotecarios con Hipoteca x un lado y prestamos personales por otro
 
-const listaHipotecarios = listaLineas.slice(0,4);
 
-//busco que n° de indice es Refacción para armar la de personales
-console.log( listaLineas.indexOf("Refacción"));//4
+//tabla para condiciones de cada linea
 
-const listaPersonales = listaLineas.slice(4,7);
+let lista = document.createElement("div");
 
-//Genero la info para que el usuario las vea
+//Para cada linea del array voy a tener una box
+    for (const producto of listaCondiciones){
+        let box = document.createElement("div");
+        box.innerHTML = `
+        <div class="container-fluid">
+            <div class="row">
+            <div class="alineaCards">
+            <div class="col-md-12">
+                <div class="card card-body margenCards">
+                    <div class="textCenter">
+                        <span class="card-title tamañoTitulos2 ">${producto.nombre}</span>
+                    </div>
+                    <ul>
+                        <li class="card-text alineaInfo">Edad entre ${producto.edadMinima} y ${producto.edadMaxima}</li>
+                        <li class="card-text alineaInfo">Plazo ${producto.plazoMinimoMeses} / ${producto.plazoMaximoMeses}meses</li>
+                        <li class="card-text alineaInfo">Financiación hasta $ ${producto.montoMaximo}</li>
+                        <li class="card-text alineaInfo">Ingreso minimo $ ${producto.ingresoMinimo}</li>
+                    </ul>
+                    <button>Más info</button>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+        `;
+        lista.appendChild(box);
+    }
 
-alert("Tenemos " + listaLineas.length + " lineas de creditos disponibles para ofrecerte: " + listaLineas.join(", "));
 
- document.write("<h2> Tenemos " + listaLineas.length + " lineas de creditos disponibles para ofrecerte: " + listaLineas.join(", ") +"</h3>" );
+let insertaLista=document.getElementById("lista");
+insertaLista.appendChild(lista);
 
-alert("Estas lineas son con Hipoteca: " + listaHipotecarios);
-alert("Estas lineas son con Pagaré: "+ listaPersonales);
+lista.className= "alineaCards";
 
-//Le consultamos que esta buscando para saber si tenemos esa linea
-//armo un array para la tasa que mantiene el orden de la lista de las lineas
-const tasaInteres = [25, 30, 22,26, 40, 46, 50];
-
-let linea=prompt("Que linea te interesa");
-let check = listaLineas.indexOf(linea);
-
-if(check != -1){
-    alert("Tenemos una linea para " + linea + " con una tasa del " + tasaInteres[check] + "% anual que puede servirte");
-}else{
-    alert("Por el momento no contamos con una linea que pueda servirte")
-}
 
 //pedimos al cliente que ingrese la linea que le interesa y calcule su cuota
 
@@ -92,7 +185,7 @@ for (let i = 1; i <= 10; i++) {
 
         calcular(capital, Interes, anos);
 
-        continue;
+        break;
 
     }
 
@@ -105,5 +198,3 @@ for (let i = 1; i <= 10; i++) {
     }
 
 }
-
-
